@@ -8,6 +8,8 @@
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/drawable/dice_3.xml" value="0.387" />
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/drawable/empty_dice.xml" value="0.387" />
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/layout/fragment_d6_dice.xml" value="0.37395833333333334" />
+        <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/layout/fragment_menu.xml" value="0.37395833333333334" />
       </map>
     </option>
   </component>
