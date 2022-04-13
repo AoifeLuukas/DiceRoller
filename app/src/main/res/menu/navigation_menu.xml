@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/D6DiceMenuItem"
+        android:icon="@drawable/d6_icon"
+        android:title="@string/d6_dice_menu_item"
+        android:checked="true"/>
+    <item
+        android:id="@+id/D20DiceMenuItem"
+        android:icon="@drawable/d20_icon"
+        android:title="@string/d20_dice_menu_item" />
 </menu>
+
+<!--using D4, D6, D8, D10, D12 and D20 by Fritz Duggan from NounProject.com-->

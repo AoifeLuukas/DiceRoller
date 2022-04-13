@@ -9,4 +9,9 @@
         android:name="com.example.diceroller.D6DiceFragment"
         android:label="fragment_d6_dice"
         tools:layout="@layout/fragment_d6_dice" />
+    <fragment
+        android:id="@+id/d20DiceFragment"
+        android:name="com.example.diceroller.D20DiceFragment"
+        android:label="fragment_d20_dice"
+        tools:layout="@layout/fragment_d20_dice" />
 </navigation>
