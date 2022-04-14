@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
 
-    <item
-        android:id="@+id/D6DiceMenuItem"
-        android:icon="@drawable/d6_icon"
-        android:title="@string/d6_dice_menu_item"
-        android:checked="true"/>
-    <item
-        android:id="@+id/D20DiceMenuItem"
-        android:icon="@drawable/d20_icon"
-        android:title="@string/d20_dice_menu_item" />
+        <item
+            android:id="@+id/D4DiceMenuItem"
+            android:icon="@drawable/nav_menu_d4_icon"
+            android:title="@string/d4_dice_menu_item"/>
+        <item
+            android:id="@+id/D6DiceMenuItem"
+            android:icon="@drawable/nav_menu_d6_icon"
+            android:title="@string/d6_dice_menu_item"
+            android:checked="true"/>
+        <item
+            android:id="@+id/D8DiceMenuItem"
+            android:icon="@drawable/nav_menu_d8_icon"
+            android:title="@string/d8_dice_menu_item" />
+        <item
+            android:id="@+id/D10DiceMenuItem"
+            android:icon="@drawable/nav_menu_d10_icon"
+            android:title="@string/d10_dice_menu_item" />
+        <item
+            android:id="@+id/D12DiceMenuItem"
+            android:icon="@drawable/nav_menu_d12_icon"
+            android:title="@string/d12_dice_menu_item" />
+        <item
+            android:id="@+id/D20DiceMenuItem"
+            android:icon="@drawable/nav_menu_d20_icon"
+            android:title="@string/d20_dice_menu_item" />
+    </group>
+
+
 </menu>
 
 <!--using D4, D6, D8, D10, D12 and D20 by Fritz Duggan from NounProject.com-->

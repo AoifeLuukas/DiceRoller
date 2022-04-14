@@ -1,11 +1,12 @@
 package com.example.diceroller
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.diceroller.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -14,12 +15,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    lateinit var updateFrag: UpdateFrag
+
+    fun fragmentUpdate(updateFrag: UpdateFrag) {
+        this.updateFrag = updateFrag
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         supportActionBar?.hide()
+
 
         setListeners()
     }
@@ -54,16 +62,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(selectedItem: MenuItem): Boolean {
         val navigationMenu = binding.navView
         when(selectedItem.itemId) {
-            R.id.D20DiceMenuItem -> {
-                changeDice(D20DiceFragment())
+
+            R.id.D4DiceMenuItem -> {
+                updateFrag.updateFrag(DiceType.D4)
             }
 
             R.id.D6DiceMenuItem -> {
-                changeDice(D6DiceFragment())
+                updateFrag.updateFrag(DiceType.D6)
+            }
+
+            R.id.D8DiceMenuItem -> {
+                updateFrag.updateFrag(DiceType.D8)
+            }
+
+            R.id.D10DiceMenuItem -> {
+                updateFrag.updateFrag(DiceType.D10)
+            }
+
+            R.id.D12DiceMenuItem -> {
+                updateFrag.updateFrag(DiceType.D12)
+            }
+
+            R.id.D20DiceMenuItem -> {
+                updateFrag.updateFrag(DiceType.D20)
             }
 
             else -> {
-                changeDice(D6DiceFragment())
+                binding.fragmentContainerView.getFragment<DiceFragment>().diceType.value = DiceType.D6
             }
         }
         checkSelectedItem(selectedItem)
@@ -73,9 +98,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun changeDice(frag: Fragment) {
-        val fragment = supportFragmentManager.beginTransaction()
-        fragment.replace(binding.fragmentContainerView.id, frag).commit()
-
+        findNavController(binding.fragmentContainerView.id).navigate(frag.id)
     }
 
     private fun checkSelectedItem(selectedItem: MenuItem) {
