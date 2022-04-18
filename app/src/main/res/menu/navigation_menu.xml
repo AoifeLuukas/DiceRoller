@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <group>
-
+    <group
+        android:id="@+id/navigationMenuDiceGroup">
         <item
             android:id="@+id/D4DiceMenuItem"
             android:icon="@drawable/nav_menu_d4_icon"
@@ -29,7 +29,13 @@
             android:icon="@drawable/nav_menu_d20_icon"
             android:title="@string/d20_dice_menu_item" />
     </group>
-
+    <group
+        android:id="@+id/navigationMenuLastRollsGroup">
+        <item
+            android:id="@+id/LastRollsMenuItem"
+            android:icon="@drawable/nav_menu_d20_icon"
+            android:title="@string/last_rolls_menu_item" />
+    </group>
 
 </menu>
 

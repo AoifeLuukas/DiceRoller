@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
 import com.example.diceroller.databinding.FragmentDiceBinding
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class DiceFragment : Fragment(), UpdateFrag {
     var diceType:MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
@@ -25,7 +22,7 @@ class DiceFragment : Fragment(), UpdateFrag {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDiceBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -56,5 +53,11 @@ class DiceFragment : Fragment(), UpdateFrag {
 
     override fun updateFrag(diceType: DiceType) {
         this.diceType.value = diceType
+
+        val updatedText = "Come on, roll the ${diceType.name}"
+        this.binding.resultText.text = updatedText
+
+        val emptyDiceDrawable = R.drawable.empty_dice
+        this.binding.diceImage.setImageResource(emptyDiceDrawable)
     }
 }

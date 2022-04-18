@@ -3,8 +3,6 @@
     <string name="roll">Roll</string>
     <string name="dice1">Come on, roll the dice!</string>
     <string name="dice_image">Dice image</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="icon_menu_description">Closed Menu Icon</string>
     <string name="d6_dice_button_text">D6 Dice</string>
     <string name="d4_dice_menu_item">D4 Dice</string>
@@ -13,4 +11,7 @@
     <string name="d10_dice_menu_item">D10 Dice</string>
     <string name="d12_dice_menu_item">D12 Dice</string>
     <string name="d20_dice_menu_item">D20 Dice</string>
+    <string name="nav_menu_header_title">Roll it!</string>
+    <string name="nav_menu_header_text">The dice app.</string>
+    <string name="last_rolls_menu_item">Last Rolls</string>
 </resources>

@@ -39,7 +39,8 @@
         android:paddingVertical="16dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation_menu">
+        app:menu="@menu/navigation_menu"
+        app:headerLayout="@layout/nav_menu_header">
 
     </com.google.android.material.navigation.NavigationView>
 
