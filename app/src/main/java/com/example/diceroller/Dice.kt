@@ -1,17 +1,10 @@
 package com.example.diceroller
 
 import androidx.annotation.DrawableRes
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
 
-class Dice(private val range: IntRange) {
-    fun rollDice() {
-        val diceResult = range.random()
-        val diceTextResult = "You got a $diceResult"
-    }
-}
-
-interface UpdateFrag {
-    fun updateFrag(diceType: DiceType)
-}
+data class Dice(private val diceType: DiceType, val result: Int)
 
 enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: IntRange) {
 

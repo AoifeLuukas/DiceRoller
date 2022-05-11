@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.diceroller.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
@@ -15,11 +16,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var updateFrag: UpdateFrag
-
-    fun fragmentUpdate(updateFrag: UpdateFrag) {
-        this.updateFrag = updateFrag
-    }
+    private lateinit var viewModel: RolledDiceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +25,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(view)
         supportActionBar?.hide()
 
+        viewModel = ViewModelProvider(this).get(RolledDiceViewModel::class.java)
 
         setListeners()
     }
@@ -62,42 +60,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(selectedItem: MenuItem): Boolean {
         val navigationMenu = binding.navView
         when(selectedItem.itemId) {
-
             R.id.D4DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D4)
+                viewModel.triggerD4()
             }
 
             R.id.D6DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D6)
+                viewModel.triggerD6()
             }
 
             R.id.D8DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D8)
+                viewModel.triggerD8()
             }
 
             R.id.D10DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D10)
+                viewModel.triggerD10()
             }
 
             R.id.D12DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D12)
+                viewModel.triggerD12()
             }
 
             R.id.D20DiceMenuItem -> {
-                updateFrag.updateFrag(DiceType.D20)
+                viewModel.triggerD20()
             }
 
             else -> {
-                binding.fragmentContainerView.getFragment<DiceFragment>().diceType.value = DiceType.D6
+                viewModel.triggerD6()
             }
+
         }
+
         checkSelectedItem(selectedItem)
         navigationMenu.visibility = View.GONE
 
         return true
     }
 
-    private fun changeDice(frag: Fragment) {
+    private fun changeFragement(frag: Fragment) {
         findNavController(binding.fragmentContainerView.id).navigate(frag.id)
     }
 
