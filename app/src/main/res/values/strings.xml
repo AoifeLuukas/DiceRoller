@@ -14,4 +14,7 @@
     <string name="nav_menu_header_title">Roll it!</string>
     <string name="nav_menu_header_text">The dice app.</string>
     <string name="last_rolls_menu_item">Last Rolls</string>
+    <string name="icon_dice_type">icon dice type</string>
+    <string name="rolled_dice_text">You rolled a nat 20!</string>
+    <string name="rolled_dice_time">dd/MM/YYYY mm:HH:ss</string>
 </resources>

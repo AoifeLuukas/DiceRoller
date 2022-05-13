@@ -3,10 +3,14 @@ package com.example.diceroller
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.*
 
-data class Dice(private val diceType: DiceType, val result: Int)
+data class Dice(val diceType: DiceType, val result: Int, val time: Calendar)
 
-enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: IntRange) {
+enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: IntRange, @DrawableRes val diceTypeIcon: Int) {
 
     D4(
         listOf(
@@ -15,7 +19,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_3,
             R.drawable.dice_4
         ),
-        1..4
+        1..4,
+        R.drawable.nav_menu_d4_icon
     ),
     D6(
         listOf(
@@ -26,7 +31,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_5,
             R.drawable.dice_6
         ),
-        1..6
+        1..6,
+        R.drawable.nav_menu_d6_icon
     ),
     D8(
         listOf(
@@ -39,7 +45,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_1,
             R.drawable.dice_2
         ),
-        1..8
+        1..8,
+        R.drawable.nav_menu_d8_icon
     ),
     D10(
         listOf(
@@ -54,7 +61,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_3,
             R.drawable.dice_4
         ),
-        1..10
+        1..10,
+        R.drawable.nav_menu_d10_icon
     ),
     D12(
         listOf(
@@ -71,7 +79,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_5,
             R.drawable.dice_6
         ),
-        1..12
+        1..12,
+        R.drawable.nav_menu_d12_icon
     ),
     D20(
         listOf(
@@ -96,7 +105,8 @@ enum class DiceType(@DrawableRes val diceImageList: List<Int>, val diceRange: In
             R.drawable.dice_1,
             R.drawable.dice_2
         ),
-        1..20
+        1..20,
+        R.drawable.nav_menu_d20_icon
     ),
 }
 

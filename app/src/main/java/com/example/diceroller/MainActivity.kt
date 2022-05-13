@@ -59,29 +59,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(selectedItem: MenuItem): Boolean {
         val navigationMenu = binding.navView
+        val fragmentContainer = binding.fragmentContainerView.id
+        val diceFragment = R.id.diceFragment
+        val listOfDiceFragment = R.id.rolledDicesListFragment
         when(selectedItem.itemId) {
             R.id.D4DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD4()
             }
 
             R.id.D6DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD6()
             }
 
             R.id.D8DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD8()
             }
 
             R.id.D10DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD10()
             }
 
             R.id.D12DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD12()
             }
 
             R.id.D20DiceMenuItem -> {
+                navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD20()
+            }
+
+            R.id.LastRollsMenuItem -> {
+                navigateToFragment(fragmentContainer, listOfDiceFragment)
             }
 
             else -> {
@@ -96,8 +109,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun changeFragement(frag: Fragment) {
-        findNavController(binding.fragmentContainerView.id).navigate(frag.id)
+    private fun navigateToFragment(container: Int, fragment: Int) {
+        findNavController(container).navigate(fragment)
     }
 
     private fun checkSelectedItem(selectedItem: MenuItem) {

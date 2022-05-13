@@ -13,5 +13,9 @@
         android:id="@+id/rolledDicesListFragment"
         android:name="com.example.diceroller.RolledDicesListFragment"
         android:label="rolled_dices_list_fragment"
-        tools:layout="@layout/rolled_dices_list_fragment" />
+        tools:layout="@layout/rolled_dices_list_fragment" >
+        <action
+            android:id="@+id/action_rolledDicesListFragment_to_diceFragment2"
+            app:popUpTo="@id/diceFragment" />
+    </fragment>
 </navigation>

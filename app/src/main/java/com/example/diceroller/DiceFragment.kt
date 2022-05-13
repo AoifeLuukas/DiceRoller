@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenCreated
@@ -53,8 +55,9 @@ class DiceFragment : Fragment() {
                 val updatedText = "Come on, roll the ${it.name}"
                 binding.resultText.text = updatedText
 
-                val emptyDiceDrawable = R.drawable.empty_dice
-                binding.diceImage.setImageResource(emptyDiceDrawable)
+                val diceTypeDrawable = it.diceTypeIcon
+                binding.diceImage.setImageResource(diceTypeDrawable)
+                binding.diceImage.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
 
             }
         }
@@ -68,13 +71,12 @@ class DiceFragment : Fragment() {
     private fun recieveDice() {
         val newDice = viewModel.rollDice()
         val diceText: TextView = binding.resultText
-//        val diceRange = diceType.value.diceRange
-//        val diceResult = diceRange.random()
         val diceTextResult = "You got a ${newDice.result}"
         diceText.text = diceTextResult
 
         val diceImageResult = viewModel.getCurrentDiceType().diceImageList[newDice.result-1]
         binding.diceImage.setImageResource(diceImageResult)
+        binding.diceImage.setColorFilter(ContextCompat.getColor(requireContext(), com.google.android.material.R.color.mtrl_btn_transparent_bg_color))
 
     }
 }

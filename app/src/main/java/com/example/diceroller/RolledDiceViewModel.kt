@@ -1,9 +1,9 @@
 package com.example.diceroller
 
-import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.text.DateFormat
 import kotlin.random.Random
 
 class RolledDiceViewModel : ViewModel() {
@@ -31,7 +31,11 @@ class RolledDiceViewModel : ViewModel() {
     fun rollDice():Dice {
         val diceRange = getCurrentDiceType().diceRange
         val diceResult = diceRange.random(Random(System.currentTimeMillis()))
-        return Dice(getCurrentDiceType(), diceResult)
+
+        val newDice = Dice(getCurrentDiceType(), diceResult, java.util.Calendar.getInstance())
+        addDiceToList(newDice)
+
+        return newDice
     }
 
 
