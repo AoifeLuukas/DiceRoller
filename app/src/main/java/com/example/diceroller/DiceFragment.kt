@@ -1,82 +1,81 @@
 package com.example.diceroller
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
 import com.example.diceroller.databinding.FragmentDiceBinding
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.observeOn
 
 class DiceFragment : Fragment() {
-    var diceType:MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
-    private var _binding: FragmentDiceBinding? = null
-    private val binding get() = _binding!!
+    var diceType: MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
+    private lateinit var binding: FragmentDiceBinding
 
-    private lateinit var viewModel: RolledDiceViewModel
+    private lateinit var viewModel: DiceRollerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[DiceRollerViewModel::class.java]
+
+        observeState()
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-        _binding = FragmentDiceBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        binding.rollButton.setOnClickListener {
-            recieveDice()
-        }
-        return view
+    ): View = FragmentDiceBinding.inflate(inflater, container, false).run {
+        binding = this
+        this.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity()).get(RolledDiceViewModel::class.java)
-        subscribeToObservables()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        binding.rollButton.setOnClickListener { onRollClicked() }
     }
 
-    private fun subscribeToObservables() {
+    private fun observeState() {
         lifecycleScope.launchWhenStarted {
             viewModel.currentDice.collectLatest {
 
+                // TODO this should be a string resource
                 val updatedText = "Come on, roll the ${it.name}"
                 binding.resultText.text = updatedText
 
                 val diceTypeDrawable = it.diceTypeIcon
                 binding.diceImage.setImageResource(diceTypeDrawable)
-                binding.diceImage.setColorFilter(ContextCompat.getColor(requireContext(), R.color.white))
-
+                binding.diceImage.setColorFilter(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.white
+                    )
+                )
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    private fun recieveDice() {
+    private fun onRollClicked() {
         val newDice = viewModel.rollDice()
         val diceText: TextView = binding.resultText
+
+        // TODO this should be a string resource
         val diceTextResult = "You got a ${newDice.result}"
         diceText.text = diceTextResult
 
-        val diceImageResult = viewModel.getCurrentDiceType().diceImageList[newDice.result-1]
+        val diceImageResult = viewModel.getCurrentDiceType().diceImageList[newDice.result - 1]
         binding.diceImage.setImageResource(diceImageResult)
-        binding.diceImage.setColorFilter(ContextCompat.getColor(requireContext(), com.google.android.material.R.color.mtrl_btn_transparent_bg_color))
-
+        binding.diceImage.setColorFilter(
+            ContextCompat.getColor(
+                requireContext(),
+                com.google.android.material.R.color.mtrl_btn_transparent_bg_color
+            )
+        )
     }
 }

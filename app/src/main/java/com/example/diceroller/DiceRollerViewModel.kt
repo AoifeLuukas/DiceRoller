@@ -3,32 +3,24 @@ package com.example.diceroller
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.text.DateFormat
 import kotlin.random.Random
 
-class RolledDiceViewModel : ViewModel() {
+class DiceRollerViewModel : ViewModel() {
     private val _currentDice: MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
     val currentDice = _currentDice.asStateFlow()
 
-    private val _listOfDices: MutableStateFlow<List<Dice>> = MutableStateFlow(listOf<Dice>())
-    val listOfDices = _listOfDices.asStateFlow()
+    private val _listOfDices: MutableStateFlow<List<Dice>> = MutableStateFlow(listOf())
+    private val listOfDices = _listOfDices.asStateFlow()
 
     fun getHistoryOfDices(): List<Dice> = listOfDices.value
 
-    fun addDiceToList(dice: Dice) {
-        _listOfDices.value = listOfDices.value+dice
-    }
-
-    //    Deprecated, changed to triggers
-    fun switchCurrentDiceType(diceType: DiceType) {
-        _currentDice.value = diceType
+    private fun addDiceToList(dice: Dice) {
+        _listOfDices.value = listOfDices.value + dice
     }
 
     fun getCurrentDiceType(): DiceType = currentDice.value
 
-
-
-    fun rollDice():Dice {
+    fun rollDice(): Dice {
         val diceRange = getCurrentDiceType().diceRange
         val diceResult = diceRange.random(Random(System.currentTimeMillis()))
 
@@ -37,7 +29,6 @@ class RolledDiceViewModel : ViewModel() {
 
         return newDice
     }
-
 
     fun triggerD4() {
         _currentDice.value = DiceType.D4

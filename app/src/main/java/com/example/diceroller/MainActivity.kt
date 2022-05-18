@@ -5,7 +5,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.diceroller.databinding.ActivityMainBinding
@@ -13,19 +12,17 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var viewModel: RolledDiceViewModel
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: DiceRollerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         supportActionBar?.hide()
 
-        viewModel = ViewModelProvider(this).get(RolledDiceViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DiceRollerViewModel::class.java]
 
         setListeners()
     }
@@ -40,29 +37,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationMenu.setNavigationItemSelectedListener(this)
     }
 
-
     private fun toggleNavigation(menuButton: View, navigationMenu: View) {
         menuButton.setOnClickListener {
             when (navigationMenu.visibility) {
-                View.GONE -> {
-                    navigationMenu.visibility = View.VISIBLE
-                }
-                View.VISIBLE -> {
-                    navigationMenu.visibility = View.GONE
-                }
-                else -> {
-                    navigationMenu.visibility = View.GONE
-                }
+                View.GONE -> navigationMenu.visibility = View.VISIBLE
+                View.VISIBLE -> navigationMenu.visibility = View.GONE
+                else -> navigationMenu.visibility = View.GONE
             }
         }
     }
 
+    // TODO navigating over and over to the same fragment makes for some heavy operations. Instead we will alter the state of the fragment
     override fun onNavigationItemSelected(selectedItem: MenuItem): Boolean {
         val navigationMenu = binding.navView
         val fragmentContainer = binding.fragmentContainerView.id
         val diceFragment = R.id.diceFragment
         val listOfDiceFragment = R.id.rolledDicesListFragment
-        when(selectedItem.itemId) {
+        when (selectedItem.itemId) {
             R.id.D4DiceMenuItem -> {
                 navigateToFragment(fragmentContainer, diceFragment)
                 viewModel.triggerD4()
@@ -100,7 +91,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             else -> {
                 viewModel.triggerD6()
             }
-
         }
 
         checkSelectedItem(selectedItem)
