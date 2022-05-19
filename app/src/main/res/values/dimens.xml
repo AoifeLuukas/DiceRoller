@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="view_vertical_margin_small">8dp</dimen>
+    <dimen name="view_vertical_padding_medium">16dp</dimen>
+    <dimen name="view_horizontal_margin_medium">16dp</dimen>
+    <dimen name="view_vertical_margin_medium">16dp</dimen>
+    <dimen name="title_bar_text_size">30sp</dimen>
+    <dimen name="roll_history_text_size">16sp</dimen>
+    <dimen name="view_vertical_margin_large">32dp</dimen>
+    <dimen name="header_view_margin">24dp</dimen>
+    <dimen name="rolled_die_image_size">64dp</dimen>
+    <dimen name="layout_title_bar_margin">48dp</dimen>
+</resources>

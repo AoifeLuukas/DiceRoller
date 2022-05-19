@@ -7,7 +7,7 @@ import java.util.*
 data class Dice(val diceType: DiceType, val result: Int, val time: Calendar)
 
 enum class DiceType(
-    @DrawableRes val diceImageList: List<Int>,
+    @DrawableRes val diceImages: List<Int>,
     val diceRange: IntRange,
     @DrawableRes val diceTypeIcon: Int
 ) {

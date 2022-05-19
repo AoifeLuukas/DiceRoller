@@ -1,56 +1,63 @@
 package com.example.diceroller
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.getAndUpdate
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.util.Calendar
 import kotlin.random.Random
 
+private const val REPLAY_LAST: Int = 1
+
 class DiceRollerViewModel : ViewModel() {
-    private val _currentDice: MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
-    val currentDice = _currentDice.asStateFlow()
+    private val currentDice: MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
 
-    private val _listOfDices: MutableStateFlow<List<Dice>> = MutableStateFlow(listOf())
-    private val listOfDices = _listOfDices.asStateFlow()
+    private val _rollHistoryState: MutableStateFlow<List<Dice>> = MutableStateFlow(listOf())
+    val rollHistoryState: StateFlow<List<Dice>> get() = _rollHistoryState.asStateFlow()
 
-    fun getHistoryOfDices(): List<Dice> = listOfDices.value
+    private val _rollDieState: MutableSharedFlow<ViewState> = MutableSharedFlow(REPLAY_LAST)
+    val viewState: SharedFlow<ViewState> get() = _rollDieState.asSharedFlow()
 
-    private fun addDiceToList(dice: Dice) {
-        _listOfDices.value = listOfDices.value + dice
+    init {
+        viewModelScope.launch { _rollDieState.emit(ViewState.RollDie.ReadyToRoll(DiceType.D6)) }
     }
 
-    fun getCurrentDiceType(): DiceType = currentDice.value
+    fun onRollClicked() {
+        suspend fun rollDice(): Dice = currentDice.map {
+            Dice(
+                diceType = currentDice.value,
+                result = it.diceRange.random(Random(System.currentTimeMillis())),
+                time = Calendar.getInstance(),
+            )
+        }.first()
 
-    fun rollDice(): Dice {
-        val diceRange = getCurrentDiceType().diceRange
-        val diceResult = diceRange.random(Random(System.currentTimeMillis()))
-
-        val newDice = Dice(getCurrentDiceType(), diceResult, java.util.Calendar.getInstance())
-        addDiceToList(newDice)
-
-        return newDice
+        viewModelScope.launch {
+            val rollResult = rollDice()
+            _rollHistoryState.getAndUpdate { it + rollResult }
+            _rollDieState.emit(
+                ViewState.RollDie.Rolled(currentDice.value, rollResult.result)
+            )
+        }
     }
 
-    fun triggerD4() {
-        _currentDice.value = DiceType.D4
+    fun onChangeDieIntent(selectedDie: DiceType) {
+        viewModelScope.launch {
+            _rollDieState.emit(ViewState.RollDie.ReadyToRoll(selectedDie))
+            currentDice.emit(selectedDie)
+        }
     }
 
-    fun triggerD6() {
-        _currentDice.value = DiceType.D6
-    }
-
-    fun triggerD8() {
-        _currentDice.value = DiceType.D8
-    }
-
-    fun triggerD10() {
-        _currentDice.value = DiceType.D10
-    }
-
-    fun triggerD12() {
-        _currentDice.value = DiceType.D12
-    }
-
-    fun triggerD20() {
-        _currentDice.value = DiceType.D20
+    fun onViewRollHistoryIntent() {
+        viewModelScope.launch {
+            _rollDieState.emit(ViewState.History)
+        }
     }
 }

@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Dice Roller</string>
     <string name="roll">Roll</string>
-    <string name="dice1">Come on, roll the dice!</string>
-    <string name="dice_image">Dice image</string>
+    <string name="dice_image_description">Dice image</string>
     <string name="icon_menu_description">Closed Menu Icon</string>
+    <string name="toolbar_label">%1$s Dice</string>
     <string name="d6_dice_button_text">D6 Dice</string>
     <string name="d4_dice_menu_item">D4 Dice</string>
     <string name="d6_dice_menu_item">D6 Dice</string>
@@ -15,6 +15,7 @@
     <string name="nav_menu_header_text">The dice app.</string>
     <string name="last_rolls_menu_item">Last Rolls</string>
     <string name="icon_dice_type">icon dice type</string>
-    <string name="rolled_dice_text">You rolled a nat 20!</string>
-    <string name="rolled_dice_time">dd/MM/YYYY mm:HH:ss</string>
+    <string name="prompt_roll_die">Come on, roll the %1$s</string>
+    <string name="roll_result_message">You got a %1$d</string>
+    <string name="history_roll_result_message">You rolled a %1$d</string>
 </resources>

@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.diceroller.databinding.FragmentDiceBinding
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 
 class DiceFragment : Fragment() {
-    var diceType: MutableStateFlow<DiceType> = MutableStateFlow(DiceType.D6)
     private lateinit var binding: FragmentDiceBinding
-
     private lateinit var viewModel: DiceRollerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,45 +34,40 @@ class DiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.rollButton.setOnClickListener { onRollClicked() }
+        binding.rollButton.setOnClickListener { viewModel.onRollClicked() }
     }
 
     private fun observeState() {
+
+        fun handleReadyToRoll(it: ViewState.RollDie.ReadyToRoll) = binding.run {
+            resultText.text = getString(R.string.prompt_roll_die, it.diceType)
+            diceImage.setImageResource(it.diceType.diceTypeIcon)
+            diceImage.setColorFilter(
+                ContextCompat.getColor(requireContext(), R.color.white)
+            )
+        }
+
+        fun handleLatestRoll(it: ViewState.RollDie.Rolled) = binding.run {
+            resultText.text =
+                getString(R.string.roll_result_message, it.rollValue)
+
+            diceImage.setImageResource(it.diceType.diceImages[it.rollValue - 1])
+            diceImage.setColorFilter(
+                ContextCompat.getColor(requireContext(), R.color.transparent)
+            )
+        }
+
         lifecycleScope.launchWhenStarted {
-            viewModel.currentDice.collectLatest {
-
-                // TODO this should be a string resource
-                val updatedText = "Come on, roll the ${it.name}"
-                binding.resultText.text = updatedText
-
-                val diceTypeDrawable = it.diceTypeIcon
-                binding.diceImage.setImageResource(diceTypeDrawable)
-                binding.diceImage.setColorFilter(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.white
-                    )
-                )
+            viewModel.viewState.collect {
+                when (it) {
+                    is ViewState.RollDie.ReadyToRoll -> handleReadyToRoll(it)
+                    is ViewState.RollDie.Rolled -> handleLatestRoll(it)
+                    ViewState.History ->
+                        findNavController().navigate(
+                            DiceFragmentDirections.actionDiceFragmentToRolledDicesListFragment()
+                        )
+                }
             }
         }
-    }
-
-    private fun onRollClicked() {
-        val newDice = viewModel.rollDice()
-        val diceText: TextView = binding.resultText
-
-        // TODO this should be a string resource
-        val diceTextResult = "You got a ${newDice.result}"
-        diceText.text = diceTextResult
-
-        val diceImageResult = viewModel.getCurrentDiceType().diceImageList[newDice.result - 1]
-        binding.diceImage.setImageResource(diceImageResult)
-        binding.diceImage.setColorFilter(
-            ContextCompat.getColor(
-                requireContext(),
-                com.google.android.material.R.color.mtrl_btn_transparent_bg_color
-            )
-        )
     }
 }

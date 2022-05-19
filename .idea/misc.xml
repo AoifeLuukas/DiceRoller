@@ -35,10 +35,12 @@
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/layout/sample_item_rolled_dice.xml" value="0.37395833333333334" />
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/layout/sample_nav_menu_header.xml" value="0.37395833333333334" />
         <entry key="..\:/Users/ichig/AndroidStudioProjects/DiceRoller/app/src/main/res/menu/navigation_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17190388170055454" />
+        <entry key="app/src/main/res/layout/fragment_dice.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
