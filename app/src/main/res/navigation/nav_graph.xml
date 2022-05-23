@@ -8,14 +8,25 @@
         android:id="@+id/diceFragment"
         android:name="com.example.diceroller.DiceFragment"
         android:label="fragment_dice"
-        tools:layout="@layout/fragment_dice" />
+        tools:layout="@layout/fragment_dice">
+        <action
+            android:id="@+id/action_diceFragment_to_rolledDicesListFragment"
+            app:destination="@id/rolledDicesListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/diceFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
     <fragment
         android:id="@+id/rolledDicesListFragment"
         android:name="com.example.diceroller.RolledDicesListFragment"
         android:label="rolled_dices_list_fragment"
-        tools:layout="@layout/rolled_dices_list_fragment" >
+        tools:layout="@layout/rolled_dices_list_fragment">
         <action
-            android:id="@+id/action_rolledDicesListFragment_to_diceFragment2"
-            app:popUpTo="@id/diceFragment" />
+            android:id="@+id/action_rolledDicesListFragment_to_diceFragment"
+            app:destination="@id/diceFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/rolledDicesListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

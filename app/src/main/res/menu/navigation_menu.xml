@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/navigationMenuDiceGroup">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/navigationMenuDiceGroup">
         <item
             android:id="@+id/D4DiceMenuItem"
             android:icon="@drawable/nav_menu_d4_icon"
-            android:title="@string/d4_dice_menu_item"/>
+            android:title="@string/d4_dice_menu_item" />
         <item
             android:id="@+id/D6DiceMenuItem"
+            android:checked="true"
             android:icon="@drawable/nav_menu_d6_icon"
-            android:title="@string/d6_dice_menu_item"
-            android:checked="true"/>
+            android:title="@string/d6_dice_menu_item" />
         <item
             android:id="@+id/D8DiceMenuItem"
             android:icon="@drawable/nav_menu_d8_icon"
@@ -29,8 +27,7 @@
             android:icon="@drawable/nav_menu_d20_icon"
             android:title="@string/d20_dice_menu_item" />
     </group>
-    <group
-        android:id="@+id/navigationMenuLastRollsGroup">
+    <group android:id="@+id/navigationMenuLastRollsGroup">
         <item
             android:id="@+id/LastRollsMenuItem"
             android:icon="@drawable/nav_menu_d20_icon"
@@ -39,4 +36,4 @@
 
 </menu>
 
-<!--using D4, D6, D8, D10, D12 and D20 by Fritz Duggan from NounProject.com-->
+    <!--using D4, D6, D8, D10, D12 and D20 by Fritz Duggan from NounProject.com-->

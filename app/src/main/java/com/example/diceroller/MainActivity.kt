@@ -4,122 +4,80 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.iterator
-import androidx.fragment.app.Fragment
+import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.example.diceroller.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
-
-    private lateinit var viewModel: RolledDiceViewModel
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: DiceRollerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.hide()
 
-        viewModel = ViewModelProvider(this).get(RolledDiceViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DiceRollerViewModel::class.java]
 
         setListeners()
+        observeState()
+    }
+
+    private fun observeState() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.viewState.collect {
+                if (it is ViewState.RollDie) {
+                    binding.title.text =
+                        getString(R.string.toolbar_label, it.diceType)
+                }
+            }
+        }
     }
 
     private fun setListeners() {
-        val navigationMenu = binding.navView
-
-        val menuButton = binding.menuButton
-
-        toggleNavigation(menuButton, navigationMenu)
-
-        navigationMenu.setNavigationItemSelectedListener(this)
+        binding.menuButton.setOnClickListener { toggleNavMenu() }
+        binding.navView.setNavigationItemSelectedListener(this)
     }
 
-
-    private fun toggleNavigation(menuButton: View, navigationMenu: View) {
-        menuButton.setOnClickListener {
-            when (navigationMenu.visibility) {
-                View.GONE -> {
-                    navigationMenu.visibility = View.VISIBLE
-                }
-                View.VISIBLE -> {
-                    navigationMenu.visibility = View.GONE
-                }
-                else -> {
-                    navigationMenu.visibility = View.GONE
-                }
+    private fun toggleNavMenu() {
+        with(binding) {
+            when (navView.visibility) {
+                View.GONE -> navView.visibility = View.VISIBLE
+                View.VISIBLE -> navView.visibility = View.GONE
+                else -> navView.visibility = View.GONE
             }
         }
     }
 
     override fun onNavigationItemSelected(selectedItem: MenuItem): Boolean {
-        val navigationMenu = binding.navView
-        val fragmentContainer = binding.fragmentContainerView.id
-        val diceFragment = R.id.diceFragment
-        val listOfDiceFragment = R.id.rolledDicesListFragment
-        when(selectedItem.itemId) {
-            R.id.D4DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD4()
-            }
 
-            R.id.D6DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD6()
-            }
+        fun checkSelectedItem(selectedItem: MenuItem) {
+            val navigationMenu = binding.navView
 
-            R.id.D8DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD8()
+            navigationMenu.menu.forEach {
+                it.isChecked = false
             }
+            selectedItem.isChecked = true
+        }
 
-            R.id.D10DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD10()
-            }
-
-            R.id.D12DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD12()
-            }
-
-            R.id.D20DiceMenuItem -> {
-                navigateToFragment(fragmentContainer, diceFragment)
-                viewModel.triggerD20()
-            }
-
-            R.id.LastRollsMenuItem -> {
-                navigateToFragment(fragmentContainer, listOfDiceFragment)
-            }
-
-            else -> {
-                viewModel.triggerD6()
-            }
-
+        when (selectedItem.itemId) {
+            R.id.D4DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D4)
+            R.id.D6DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D6)
+            R.id.D8DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D8)
+            R.id.D10DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D10)
+            R.id.D12DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D12)
+            R.id.D20DiceMenuItem -> viewModel.onChangeDieIntent(DiceType.D20)
+            R.id.LastRollsMenuItem -> viewModel.onViewRollHistoryIntent()
+            else -> throw Exception("Unknown Navigation Item Selected")
         }
 
         checkSelectedItem(selectedItem)
-        navigationMenu.visibility = View.GONE
-
+        toggleNavMenu()
         return true
-    }
-
-    private fun navigateToFragment(container: Int, fragment: Int) {
-        findNavController(container).navigate(fragment)
-    }
-
-    private fun checkSelectedItem(selectedItem: MenuItem) {
-        val navigationMenu = binding.navView
-        for (item in navigationMenu.menu) {
-            item.isChecked = false
-        }
-        selectedItem.isChecked = true
-
-        binding.titleText.text = selectedItem.title
     }
 }

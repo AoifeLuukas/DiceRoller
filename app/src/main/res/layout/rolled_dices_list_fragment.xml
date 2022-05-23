@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rolledDicesListFragment"
+    android:id="@+id/rolled_dice_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RolledDicesListFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
-        card_view:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        card_view:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_rolled_dice" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_marginTop="@dimen/layout_title_bar_margin"
+    card_view:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    card_view:layout_constraintTop_toTopOf="parent"
+    tools:context=".RolledDicesListFragment"
+    tools:listitem="@layout/item_rolled_dice" />

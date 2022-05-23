@@ -2,15 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
+    android:id="@+id/layout_dice_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="#202124"
+    android:background="@color/app_background"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
+        android:id="@+id/fragment_container_view"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -18,13 +18,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation" />
+        app:navGraph="@navigation/nav_graph" />
 
-    <ImageView
-        android:id="@+id/menuButton"
+    <ImageButton
+        android:id="@+id/menu_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/view_vertical_margin_small"
         android:contentDescription="@string/icon_menu_description"
         app:layout_constraintStart_toEndOf="@+id/nav_view"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,23 +36,23 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:paddingVertical="16dp"
+        android:paddingVertical="@dimen/view_vertical_padding_medium"
         android:visibility="gone"
+        app:headerLayout="@layout/nav_menu_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation_menu"
-        app:headerLayout="@layout/nav_menu_header">
+        app:menu="@menu/navigation_menu">
 
     </com.google.android.material.navigation.NavigationView>
 
     <TextView
-        android:id="@+id/title_text"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="@dimen/view_horizontal_margin_medium"
+        android:layout_marginTop="@dimen/view_vertical_margin_medium"
         android:text="@string/d6_dice_menu_item"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="@dimen/title_bar_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
